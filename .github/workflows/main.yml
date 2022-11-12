@@ -19,7 +19,7 @@ jobs:
         make
     - name: Run tests
       working-directory: ${{ env.path }}
-      run: ctest -V
+      run: ./gtests
 
   formatting_check:
     runs-on: ubuntu-latest
@@ -28,4 +28,4 @@ jobs:
     - name: Run clang-format style check
       uses: actions/checkout@main
       with:
-        check_path: 'university-db'
+        check_path: 'repository'
