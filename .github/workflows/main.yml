@@ -9,7 +9,7 @@ jobs:
       path: homework/university-db/build
     steps:
     - name: Check out code
-      uses: actions/checkout@master
+      uses: actions/checkout@main
     - name: Create build directory
       run: mkdir ${{ env.path }}
     - name: Compile
