@@ -1,4 +1,9 @@
-# Run manually to reformat a file:
-# clang-format -i --style=file <file>
-Language:     Cpp
-BasedOnStyle: LLVM
+Language: Cpp
+BasedOnStyle: Chromium
+UseTab: Never
+IndentWidth: 4
+TabWidth: 4
+AllowShortIfStatementsOnASingleLine: Never
+IndentCaseLabels: false
+ColumnLimit: 0
+AccessModifierOffset: -4
