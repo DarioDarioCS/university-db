@@ -28,4 +28,4 @@ jobs:
     - name: Run clang-format style check
       uses: actions/checkout@main
       with:
-        check_path: 'github-server-url'
+        check_path: '${{ env.path }}/..'
