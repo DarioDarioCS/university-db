@@ -6,7 +6,7 @@ jobs:
   university-db:
     runs-on: ubuntu-latest
     env:
-      path: university-db/build
+      path: build
     steps:
     - name: Check out code
       uses: actions/checkout@main
