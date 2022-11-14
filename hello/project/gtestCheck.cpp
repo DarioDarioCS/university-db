@@ -3,14 +3,7 @@
 #include <iostream>
 using namespace std;
 
-class UniversityDB
-{
-    public:
-    void print()
-    {
-        std::cout << " nic " << std::endl;
-    }
-};
+#include "university-db.hpp"
 
 int main(int argc, char* argv[]) {
     testing::InitGoogleTest(&argc, argv);

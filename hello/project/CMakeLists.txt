@@ -21,7 +21,7 @@ add_definitions(-Wno-unused-variable)
 add_definitions(-Wno-unused-parameter)
 add_definitions(-Wall -Werror -pedantic -Wextra)
 
-add_executable(hello  main.cpp)
+add_executable(hello  main.cpp university-db.cpp)
 
-add_executable(gtests gtestCheck.cpp)
+add_executable(gtests gtestCheck.cpp university-db.cpp)
 target_link_libraries(gtests gtest_main gmock_main)
