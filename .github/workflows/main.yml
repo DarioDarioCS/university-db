@@ -26,6 +26,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run clang-format style check
-      uses: actions/checkout@main
+      uses: coders-school/github-actions/clang-format-check@main
       with:
         check_path: 'hello/project'
