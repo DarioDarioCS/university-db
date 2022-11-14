@@ -11,5 +11,5 @@ int main(int argc, char* argv[])
 
 TEST(SimpleTest, CompareEqualValues)
 {
-    ASSERT_EQ(1, 2);
+    ASSERT_EQ(1, 1);
 }
