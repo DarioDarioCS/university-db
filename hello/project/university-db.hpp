@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include "Student.hpp"
 
 class UniversityDB
@@ -11,6 +12,7 @@ public:
     int numberOfRecords() const;
     bool addRecord(const Student& student);
     bool hasStudent(const Student& student);
+    std::string toString();
     void print();
 };
 

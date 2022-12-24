@@ -2,10 +2,24 @@
 
 #include <algorithm>
 #include <iostream>
+#include <sstream>
+
+std::string UniversityDB::toString()
+{
+    std::ostringstream out("");
+    out << "UniversityDB:\n";
+    out << "Number of records: " << records.size() << "\n";
+    for(auto student : records)
+    {
+        out << StudentPrinter::printStudentToPlainText(student);
+    }
+    out <<  "\n";
+    return out.str();
+}
 
 void UniversityDB::print()
 {
-    std::cout << " nic " << std::endl;
+    std::cout << toString();
 }
 
 int UniversityDB::numberOfRecords() const 

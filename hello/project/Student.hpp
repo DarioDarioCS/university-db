@@ -45,7 +45,10 @@ public:
                 (gender == foo.gender);
     }
 
+
 private:
+    friend class StudentPrinter;
+
     const std::string name;
     const std::string surname;
     const std::string address;
@@ -53,4 +56,34 @@ private:
     const std::string pesel;
     enum Gender gender;
 
+    const std::string getName() const
+    {
+        return name;
+    }
+    const std::string getSurname() const
+    {
+        return surname;
+    }
+    const std::string getAddress() const
+    {
+        return address;
+    }
+    const std::string getId() const
+    {
+        return id;
+    }
+    const std::string getPesel() const
+    {
+        return pesel;
+    }
+    enum Gender getGender() const
+    {
+        return gender;
+    }
+};
+
+class StudentPrinter
+{
+public:
+    static std::string printStudentToPlainText(const Student& student);
 };

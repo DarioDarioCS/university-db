@@ -43,3 +43,48 @@ TEST(UniversityDB, AddNewStudent) {
     EXPECT_TRUE(universityDb.numberOfRecords() == 1);
     EXPECT_FALSE(universityDb.hasStudent(not_added_student));
 }
+
+TEST(UniversityDB, DisplayDB_whenDBIsEmpty) {
+    UniversityDB universityDb;
+
+    const std::string expected =
+    "UniversityDB:\n"
+    "Number of records: 0\n"
+    "\n";
+
+    universityDb.print();
+    EXPECT_TRUE(universityDb.toString() == expected);
+}
+
+TEST(UniversityDB, DisplayDB_whenDBHasOneStudent) {
+    UniversityDB universityDb;
+    Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
+    universityDb.addRecord(student);
+
+    const std::string expected =
+    "UniversityDB:\n"
+    "Number of records: 1\n"
+    "Mokebe, Mensah, ul. Wrocławska 3/4, 555666, 90032108093, Mężczyzna\n"
+    "\n";
+
+    universityDb.print();
+    EXPECT_TRUE(universityDb.toString() == expected);
+}
+
+TEST(UniversityDB, DisplayDB_whenDBHasTwoStudents) {
+    UniversityDB universityDb;
+    Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
+    Student student2("Mbeppe", "Glappe", "ul. Wrocławska 3/4","555677", "90032108393", Student::Gender::MALE);
+    universityDb.addRecord(student);
+    universityDb.addRecord(student2);
+
+    const std::string expected =
+    "UniversityDB:\n"
+    "Number of records: 2\n"
+    "Mokebe, Mensah, ul. Wrocławska 3/4, 555666, 90032108093, Mężczyzna\n"
+    "Mbeppe, Glappe, ul. Wrocławska 3/4, 555677, 90032108393, Mężczyzna\n"
+    "\n";
+
+    universityDb.print();
+    EXPECT_TRUE(universityDb.toString() == expected);
+}
