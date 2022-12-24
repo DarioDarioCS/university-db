@@ -169,39 +169,39 @@ TEST(UniversityDB, SortDBByPesel_whenDBIsEmpty_thenOnlyLetInvokeSortMethod)
 TEST(UniversityDB, SortDBByPesel_whenDBHasOneStudent_thenDBShouldBeTheSameAsBefore)
 {
     UniversityDB universityDb;
-    UniversityDB notSortedDb;
+    UniversityDB expectedDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
     universityDb.addRecord(student);
-    notSortedDb.addRecord(student);
+    expectedDb.addRecord(student);
 
     universityDb.sortByPesel();
 
     universityDb.print();
-    EXPECT_TRUE(universityDb == notSortedDb);
+    EXPECT_TRUE(universityDb == expectedDb);
 }
 
 TEST(UniversityDB, SortDBByPesel_whenDBHasTwoStudents_thenDBBeSorted)
 {
     UniversityDB universityDb;
-    UniversityDB notSortedDb;
+    UniversityDB expectedDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
     Student student2("Nbeppe", "Glappe", "ul. Wrocławska 3/4", "555666", "80032108093", Student::Gender::MALE);
 
     universityDb.addRecord(student);
     universityDb.addRecord(student2);
-    notSortedDb.addRecord(student);
-    notSortedDb.addRecord(student2);
+    expectedDb.addRecord(student2);
+    expectedDb.addRecord(student);
 
     universityDb.sortByPesel();
 
     universityDb.print();
-    EXPECT_FALSE(universityDb == notSortedDb);
+    EXPECT_TRUE(universityDb == expectedDb);
 }
 
 TEST(UniversityDB, SortDBByPesel_whenDBHasThreeStudents_thenDBBeSorted)
 {
     UniversityDB universityDb;
-    UniversityDB notSortedDb;
+    UniversityDB expectedDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
     Student student2("Nbeppe", "Glappe", "ul. Wrocławska 3/4", "555666", "50032108093", Student::Gender::MALE);
     Student student3("Leppe", "Meppe", "ul. Wrocławska 3/4", "555666", "80032108093", Student::Gender::MALE);
@@ -209,14 +209,15 @@ TEST(UniversityDB, SortDBByPesel_whenDBHasThreeStudents_thenDBBeSorted)
     universityDb.addRecord(student);
     universityDb.addRecord(student2);
     universityDb.addRecord(student3);
-    notSortedDb.addRecord(student);
-    notSortedDb.addRecord(student2);
-    notSortedDb.addRecord(student3);
+
+    expectedDb.addRecord(student2);
+    expectedDb.addRecord(student3);
+    expectedDb.addRecord(student);
 
     universityDb.sortByPesel();
 
     universityDb.print();
-    EXPECT_FALSE(universityDb == notSortedDb);
+    EXPECT_TRUE(universityDb == expectedDb);
 }
 
 TEST(UniversityDB, SortDBBySurname_whenDBIsEmpty_thenOnlyLetInvokeSortMethod)
@@ -229,39 +230,40 @@ TEST(UniversityDB, SortDBBySurname_whenDBIsEmpty_thenOnlyLetInvokeSortMethod)
 TEST(UniversityDB, SortDBBySurname_whenDBHasOneStudent_thenDBShouldBeTheSameAsBefore)
 {
     UniversityDB universityDb;
-    UniversityDB notSortedDb;
+    UniversityDB expectedDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
     universityDb.addRecord(student);
-    notSortedDb.addRecord(student);
+    expectedDb.addRecord(student);
 
     universityDb.sortBySurname();
 
     universityDb.print();
-    EXPECT_TRUE(universityDb == notSortedDb);
+    EXPECT_TRUE(universityDb == expectedDb);
 }
 
 TEST(UniversityDB, SortDBBySurname_whenDBHasTwoStudents_thenDBBeSorted)
 {
     UniversityDB universityDb;
-    UniversityDB notSortedDb;
+    UniversityDB expectedDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
     Student student2("Nbeppe", "Glappe", "ul. Wrocławska 3/4", "555666", "80032108093", Student::Gender::MALE);
 
     universityDb.addRecord(student);
     universityDb.addRecord(student2);
-    notSortedDb.addRecord(student);
-    notSortedDb.addRecord(student2);
+
+    expectedDb.addRecord(student2);
+    expectedDb.addRecord(student);
 
     universityDb.sortBySurname();
 
     universityDb.print();
-    EXPECT_FALSE(universityDb == notSortedDb);
+    EXPECT_TRUE(universityDb == expectedDb);
 }
 
 TEST(UniversityDB, SortDBBySurname_whenDBHasThreeStudents_thenDBBeSorted)
 {
     UniversityDB universityDb;
-    UniversityDB notSortedDb;
+    UniversityDB expectedDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
     Student student2("Nbeppe", "Glappe", "ul. Wrocławska 3/4", "555666", "50032108093", Student::Gender::MALE);
     Student student3("Leppe", "Meppe", "ul. Wrocławska 3/4", "555666", "80032108093", Student::Gender::MALE);
@@ -269,13 +271,14 @@ TEST(UniversityDB, SortDBBySurname_whenDBHasThreeStudents_thenDBBeSorted)
     universityDb.addRecord(student);
     universityDb.addRecord(student2);
     universityDb.addRecord(student3);
-    notSortedDb.addRecord(student);
-    notSortedDb.addRecord(student2);
-    notSortedDb.addRecord(student3);
+
+    expectedDb.addRecord(student2);
+    expectedDb.addRecord(student);
+    expectedDb.addRecord(student3);
 
     universityDb.sortBySurname();
 
     universityDb.print();
-    EXPECT_FALSE(universityDb == notSortedDb);
+    EXPECT_TRUE(universityDb == expectedDb);
 }
 
