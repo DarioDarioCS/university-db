@@ -158,3 +158,64 @@ TEST(UniversityDB, FindStudentByPesel_whenDBHasOneParticularStudent_thenDisallow
     EXPECT_FALSE(result);
     EXPECT_FALSE(student == student_to_find);
 }
+
+TEST(UniversityDB, SortDBByPesel_whenDBIsEmpty_thenOnlyLetInvokeSortMethod)
+{
+    UniversityDB universityDb;
+
+    universityDb.sortByPesel();
+}
+
+TEST(UniversityDB, SortDBByPesel_whenDBHasOneStudent_thenDBShouldBeTheSameAsBefore)
+{
+    UniversityDB universityDb;
+    UniversityDB notSortedDb;
+    Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
+    universityDb.addRecord(student);
+    notSortedDb.addRecord(student);
+
+    universityDb.sortByPesel();
+
+    universityDb.print();
+    EXPECT_TRUE(universityDb == notSortedDb);
+}
+
+TEST(UniversityDB, SortDBByPesel_whenDBHasTwoStudents_thenDBBeSorted)
+{
+    UniversityDB universityDb;
+    UniversityDB notSortedDb;
+    Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
+    Student student2("Nbeppe", "Glappe", "ul. Wrocławska 3/4", "555666", "80032108093", Student::Gender::MALE);
+
+    universityDb.addRecord(student);
+    universityDb.addRecord(student2);
+    notSortedDb.addRecord(student);
+    notSortedDb.addRecord(student2);
+
+    universityDb.sortByPesel();
+
+    universityDb.print();
+    EXPECT_FALSE(universityDb == notSortedDb);
+}
+
+TEST(UniversityDB, SortDBByPesel_whenDBHasThreeStudents_thenDBBeSorted)
+{
+    UniversityDB universityDb;
+    UniversityDB notSortedDb;
+    Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
+    Student student2("Nbeppe", "Glappe", "ul. Wrocławska 3/4", "555666", "50032108093", Student::Gender::MALE);
+    Student student3("Leppe", "Meppe", "ul. Wrocławska 3/4", "555666", "80032108093", Student::Gender::MALE);
+
+    universityDb.addRecord(student);
+    universityDb.addRecord(student2);
+    universityDb.addRecord(student3);
+    notSortedDb.addRecord(student);
+    notSortedDb.addRecord(student2);
+    notSortedDb.addRecord(student3);
+
+    universityDb.sortByPesel();
+
+    universityDb.print();
+    EXPECT_FALSE(universityDb == notSortedDb);
+}
+

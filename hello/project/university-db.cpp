@@ -78,3 +78,7 @@ bool UniversityDB::findStudentByPesel(const std::string& pesel, Student& student
     return result;
 }
 
+void UniversityDB::sortByPesel()
+{
+    std::sort(records.begin(), records.end(), StudentAccessor::SortByPesel());
+}

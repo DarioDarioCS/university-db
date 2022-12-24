@@ -35,14 +35,14 @@ public:
 
     }
 
-    inline bool operator==(const Student& foo)
+    inline bool operator==(const Student& other) const
     {
-        return (name == foo.name) and
-                (surname == foo.surname) and
-                (address == foo.address) and
-                (id == foo.id) and
-                (pesel == foo.pesel) and
-                (gender == foo.gender);
+        return (name == other.name) and
+                (surname == other.surname) and
+                (address == other.address) and
+                (id == other.id) and
+                (pesel == other.pesel) and
+                (gender == other.gender);
     }
 
 private:
@@ -94,6 +94,9 @@ class StudentAccessor
 public:
     static std::string getSurname(const Student& student);
     static std::string getPesel(const Student& student);
+    struct SortByPesel{
+        bool operator()(Student a, Student b) const { return a.pesel < b.pesel; }
+    };
 };
 
 class StudentFactory
