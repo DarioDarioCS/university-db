@@ -97,6 +97,9 @@ public:
     struct SortByPesel{
         bool operator()(Student a, Student b) const { return a.pesel < b.pesel; }
     };
+    struct SortBySurname{
+        bool operator()(Student a, Student b) const { return a.surname < b.surname; }
+    };
 };
 
 class StudentFactory

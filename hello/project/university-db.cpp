@@ -82,3 +82,8 @@ void UniversityDB::sortByPesel()
 {
     std::sort(records.begin(), records.end(), StudentAccessor::SortByPesel());
 }
+
+void UniversityDB::sortBySurname()
+{
+    std::sort(records.begin(), records.end(), StudentAccessor::SortBySurname());
+}

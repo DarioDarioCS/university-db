@@ -18,6 +18,7 @@ public:
     bool findStudentBySurname(const std::string& surname, Student& student);
     bool findStudentByPesel(const std::string& pesel, Student& student);
     void sortByPesel();
+    void sortBySurname();
     inline bool operator==(const UniversityDB& other) const
     {
         return (records == other.records);
