@@ -8,6 +8,7 @@ class UniversityDB
 {
     int number_of_records = 0;
     std::vector<Student> records;
+    bool findStudentById(const std::string& id, Student& student);
     
 public:
     int numberOfRecords() const;
@@ -19,6 +20,7 @@ public:
     bool findStudentByPesel(const std::string& pesel, Student& student);
     void sortByPesel();
     void sortBySurname();
+    bool deleteById(const std::string& id);
     inline bool operator==(const UniversityDB& other) const
     {
         return (records == other.records);

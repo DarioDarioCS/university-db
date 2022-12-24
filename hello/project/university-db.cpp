@@ -78,6 +78,22 @@ bool UniversityDB::findStudentByPesel(const std::string& pesel, Student& student
     return result;
 }
 
+bool UniversityDB::findStudentById(const std::string& id, Student& student)
+{
+    bool result = false;
+    for(auto studentInDB : records)
+    {
+        if(StudentAccessor::getId(studentInDB) == id)
+        {
+            auto studentFactory = StudentFactory();
+            student = studentFactory.cloneStudent(studentInDB);
+            return true;
+        }
+    }
+
+    return result;
+}
+
 void UniversityDB::sortByPesel()
 {
     std::sort(records.begin(), records.end(), StudentAccessor::SortByPesel());
@@ -86,4 +102,19 @@ void UniversityDB::sortByPesel()
 void UniversityDB::sortBySurname()
 {
     std::sort(records.begin(), records.end(), StudentAccessor::SortBySurname());
+}
+
+bool UniversityDB::deleteById(const std::string& id)
+{
+    bool result = false;
+    Student student;
+    if(findStudentById(id, student))
+    {
+        records.erase(std::remove_if(records.begin(), 
+                                    records.end(), 
+                                    [student](Student x){return x == student;}),
+                                    records.end());
+        result = true;
+    }
+    return result;
 }

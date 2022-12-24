@@ -282,3 +282,42 @@ TEST(UniversityDB, SortDBBySurname_whenDBHasThreeStudents_thenDBBeSorted)
     EXPECT_TRUE(universityDb == expectedDb);
 }
 
+TEST(UniversityDB, DeleteStudent_whenDBIsEmpty_thenDeletionShouldntChangeAnything)
+{
+    UniversityDB universityDb;
+    EXPECT_TRUE(universityDb.numberOfRecords() == 0);
+
+    auto deleted = universityDb.deleteById("555666");
+
+    EXPECT_FALSE(deleted);
+    EXPECT_TRUE(universityDb.numberOfRecords() == 0);
+}
+
+TEST(UniversityDB, DeleteStudent_whenDBHasOneStudent_thenDeletionShouldMakeDBEmpty)
+{
+    UniversityDB universityDb;
+    EXPECT_TRUE(universityDb.numberOfRecords() == 0);
+    Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
+    universityDb.addRecord(student);
+
+    auto deleted = universityDb.deleteById("555666");
+
+    EXPECT_TRUE(deleted);
+    EXPECT_TRUE(universityDb.numberOfRecords() == 0);
+}
+
+
+TEST(UniversityDB, DeleteStudent_whenDBHasTwoStudents_thenSingleDeletionShouldRemainOneRecord)
+{
+    UniversityDB universityDb;
+    EXPECT_TRUE(universityDb.numberOfRecords() == 0);
+    Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
+    Student student2("Mokebe", "Mensah", "ul. Wrocławska 3/4", "111111", "90032108093", Student::Gender::MALE);
+    universityDb.addRecord(student);
+    universityDb.addRecord(student2);
+
+    auto deleted = universityDb.deleteById("555666");
+
+    EXPECT_TRUE(deleted);
+    EXPECT_TRUE(universityDb.numberOfRecords() == 1);
+}

@@ -94,6 +94,7 @@ class StudentAccessor
 public:
     static std::string getSurname(const Student& student);
     static std::string getPesel(const Student& student);
+    static std::string getId(const Student& student);
     struct SortByPesel{
         bool operator()(Student a, Student b) const { return a.pesel < b.pesel; }
     };
