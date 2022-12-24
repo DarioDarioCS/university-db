@@ -15,6 +15,8 @@ public:
     std::string toString();
     void print();
     bool findStudentBySurname(const std::string& surname, Student& student);
+    bool findStudentByPesel(const std::string& pesel, Student& student);
+
 };
 
 

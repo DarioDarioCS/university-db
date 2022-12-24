@@ -62,3 +62,19 @@ bool UniversityDB::findStudentBySurname(const std::string& surname, Student& stu
     return result;
 }
 
+bool UniversityDB::findStudentByPesel(const std::string& pesel, Student& student)
+{
+    bool result = false;
+    for(auto studentInDB : records)
+    {
+        if(StudentAccessor::getPesel(studentInDB) == pesel)
+        {
+            auto studentFactory = StudentFactory();
+            student = studentFactory.cloneStudent(studentInDB);
+            return true;
+        }
+    }
+
+    return result;
+}
+

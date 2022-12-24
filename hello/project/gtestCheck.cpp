@@ -93,7 +93,7 @@ TEST(UniversityDB, FindStudentBySurname_whenDBIsEmpty_thenDontLetFindAnyStudent)
 {
     UniversityDB universityDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
-    
+
     Student student_to_find;
     auto result = universityDb.findStudentBySurname("Mensah", student_to_find);
     EXPECT_FALSE(result);
@@ -120,6 +120,41 @@ TEST(UniversityDB, FindStudentBySurname_whenDBHasOneParticularStudent_thenDisall
 
     Student student_to_find;
     auto result = universityDb.findStudentBySurname("Mokebe", student_to_find);
+    EXPECT_FALSE(result);
+    EXPECT_FALSE(student == student_to_find);
+}
+
+TEST(UniversityDB, FindStudentByPesel_whenDBIsEmpty_thenDontLetFindAnyStudent)
+{
+    UniversityDB universityDb;
+    Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
+
+    Student student_to_find;
+    auto result = universityDb.findStudentByPesel("90032108093", student_to_find);
+    EXPECT_FALSE(result);
+    EXPECT_FALSE(student == student_to_find);
+}
+
+TEST(UniversityDB, FindStudentByPesel_whenDBHasOneParticularStudent_thenAllowToFindThisStudent)
+{
+    UniversityDB universityDb;
+    Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
+    universityDb.addRecord(student);
+
+    Student student_to_find;
+    auto result = universityDb.findStudentByPesel("90032108093", student_to_find);
+    EXPECT_TRUE(result);
+    EXPECT_TRUE(student == student_to_find);
+}
+
+TEST(UniversityDB, FindStudentByPesel_whenDBHasOneParticularStudent_thenDisallowToFindAnotherStudent)
+{
+    UniversityDB universityDb;
+    Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
+    universityDb.addRecord(student);
+
+    Student student_to_find;
+    auto result = universityDb.findStudentByPesel("00000000000", student_to_find);
     EXPECT_FALSE(result);
     EXPECT_FALSE(student == student_to_find);
 }

@@ -24,6 +24,10 @@ std::string StudentAccessor::getSurname(const Student& student)
     return student.getSurname();
 }
 
+std::string StudentAccessor::getPesel(const Student& student)
+{
+    return student.getPesel();
+}
 
 Student StudentFactory::cloneStudent(const Student& student)
 {

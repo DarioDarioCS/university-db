@@ -49,7 +49,7 @@ private:
     friend class StudentPrinter;
     friend class StudentAccessor;
     friend class StudentFactory;
-
+    // Student& operator=(const Student& other);
     std::string name;
     std::string surname;
     std::string address;
@@ -93,6 +93,7 @@ class StudentAccessor
 {
 public:
     static std::string getSurname(const Student& student);
+    static std::string getPesel(const Student& student);
 };
 
 class StudentFactory
