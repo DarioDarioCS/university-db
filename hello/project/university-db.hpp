@@ -14,6 +14,7 @@ public:
     bool hasStudent(const Student& student);
     std::string toString();
     void print();
+    bool findStudentBySurname(const std::string& surname, Student& student);
 };
 
 

@@ -47,3 +47,18 @@ bool UniversityDB::hasStudent(const Student& student)
     return false;
 }
 
+bool UniversityDB::findStudentBySurname(const std::string& surname, Student& student)
+{
+    bool result = false;
+    for(auto studentInDB : records)
+    {
+        if(StudentAccessor::getSurname(studentInDB) == surname)
+        {
+            auto studentFactory = StudentFactory();
+            student = studentFactory.cloneStudent(studentInDB);
+            return true;
+        }
+    }
+    return result;
+}
+

@@ -18,3 +18,20 @@ std::string StudentPrinter::printStudentToPlainText(const Student& student)
 
     return out.str();
 }
+
+std::string StudentAccessor::getSurname(const Student& student)
+{
+    return student.getSurname();
+}
+
+
+Student StudentFactory::cloneStudent(const Student& student)
+{
+    Student clonedStudent(student.getName(), 
+        student.getSurname(),
+        student.getAddress(),
+        student.getId(),
+        student.getPesel(),
+        student.getGender());
+    return clonedStudent;
+}

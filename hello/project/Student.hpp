@@ -45,15 +45,16 @@ public:
                 (gender == foo.gender);
     }
 
-
 private:
     friend class StudentPrinter;
+    friend class StudentAccessor;
+    friend class StudentFactory;
 
-    const std::string name;
-    const std::string surname;
-    const std::string address;
-    const std::string id;
-    const std::string pesel;
+    std::string name;
+    std::string surname;
+    std::string address;
+    std::string id;
+    std::string pesel;
     enum Gender gender;
 
     const std::string getName() const
@@ -86,4 +87,17 @@ class StudentPrinter
 {
 public:
     static std::string printStudentToPlainText(const Student& student);
+};
+
+class StudentAccessor
+{
+public:
+    static std::string getSurname(const Student& student);
+};
+
+class StudentFactory
+{
+public:
+    StudentFactory(){}
+    Student cloneStudent(const Student& student);
 };
