@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.11)
 project(hello)
 
+# get JSON library
+include(FetchContent)
+
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
+FetchContent_MakeAvailable(json)
+
+
 # Get Googletest
 
 include(FetchContent)
@@ -24,4 +31,7 @@ add_definitions(-Wall -Werror -pedantic -Wextra)
 add_executable(hello  main.cpp university-db.cpp Student.cpp)
 
 add_executable(gtests gtestCheck.cpp university-db.cpp Student.cpp)
-target_link_libraries(gtests gtest_main gmock_main)
+add_executable(json_experiments my_json_experiments.cpp)
+target_link_libraries(gtests PRIVATE gtest_main gmock_main nlohmann_json::nlohmann_json)
+
+target_link_libraries(json_experiments PRIVATE nlohmann_json::nlohmann_json)
