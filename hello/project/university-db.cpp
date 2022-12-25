@@ -49,49 +49,53 @@ bool UniversityDB::hasStudent(const Student& student)
 
 bool UniversityDB::findStudentBySurname(const std::string& surname, Student& student)
 {
-    bool result = false;
-    for(auto studentInDB : records)
+    auto foundStudent = std::find_if(records.begin(), 
+                               records.end(),
+                               [&surname](auto studentInDB){
+                                return StudentAccessor::getSurname(studentInDB) == surname;
+                               });
+    if(foundStudent != std::end(records))
     {
-        if(StudentAccessor::getSurname(studentInDB) == surname)
-        {
-            auto studentFactory = StudentFactory();
-            student = studentFactory.cloneStudent(studentInDB);
-            return true;
-        }
+        auto studentFactory = StudentFactory();
+        student = studentFactory.cloneStudent(*foundStudent);
+        return true;
     }
-    return result;
+
+    return false;
 }
 
 bool UniversityDB::findStudentByPesel(const std::string& pesel, Student& student)
 {
-    bool result = false;
-    for(auto studentInDB : records)
+    auto foundStudent = std::find_if(records.begin(), 
+                               records.end(),
+                               [&pesel](auto studentInDB){
+                                return StudentAccessor::getPesel(studentInDB) == pesel;
+                               });
+    if(foundStudent != std::end(records))
     {
-        if(StudentAccessor::getPesel(studentInDB) == pesel)
-        {
-            auto studentFactory = StudentFactory();
-            student = studentFactory.cloneStudent(studentInDB);
-            return true;
-        }
+        auto studentFactory = StudentFactory();
+        student = studentFactory.cloneStudent(*foundStudent);
+        return true;
     }
 
-    return result;
+    return false;
 }
 
 bool UniversityDB::findStudentById(const std::string& id, Student& student)
 {
-    bool result = false;
-    for(auto studentInDB : records)
+    auto foundStudent = std::find_if(records.begin(), 
+                               records.end(),
+                               [&id](auto studentInDB){
+                                return StudentAccessor::getId(studentInDB) == id;
+                               });
+    if(foundStudent != std::end(records))
     {
-        if(StudentAccessor::getId(studentInDB) == id)
-        {
-            auto studentFactory = StudentFactory();
-            student = studentFactory.cloneStudent(studentInDB);
-            return true;
-        }
+        auto studentFactory = StudentFactory();
+        student = studentFactory.cloneStudent(*foundStudent);
+        return true;
     }
 
-    return result;
+    return false;
 }
 
 void UniversityDB::sortByPesel()
