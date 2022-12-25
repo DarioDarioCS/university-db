@@ -1,48 +1,43 @@
 #pragma once
 #include <string>
 
-class Student
-{
+class Student {
 public:
-    enum class Gender
-    {
-        MALE, FEMALE
+    enum class Gender {
+        MALE,
+        FEMALE
     };
 
-    Student() : name("Kłentin"), 
-                surname("Lewandowski"),
-                address("ul Wrocławska, Koziebrody"),
-                id("652232"),
-                pesel("99099088765"),
-                gender(Gender::MALE)
-    {
-
+    Student()
+        : name("Kłentin"),
+          surname("Lewandowski"),
+          address("ul Wrocławska, Koziebrody"),
+          id("652232"),
+          pesel("99099088765"),
+          gender(Gender::MALE) {
     }
 
-    Student(const std::string name, 
+    Student(const std::string name,
             const std::string surname,
             const std::string address,
             const std::string id,
             const std::string pesel,
-            enum Gender gender) 
-            : name(name), 
-                surname(surname),
-                address(address),
-                id(id),
-                pesel(pesel),
-                gender(gender)
-    {
-
+            enum Gender gender)
+        : name(name),
+          surname(surname),
+          address(address),
+          id(id),
+          pesel(pesel),
+          gender(gender) {
     }
 
-    inline bool operator==(const Student& other) const
-    {
+    inline bool operator==(const Student& other) const {
         return (name == other.name) and
-                (surname == other.surname) and
-                (address == other.address) and
-                (id == other.id) and
-                (pesel == other.pesel) and
-                (gender == other.gender);
+               (surname == other.surname) and
+               (address == other.address) and
+               (id == other.id) and
+               (pesel == other.pesel) and
+               (gender == other.gender);
     }
 
 private:
@@ -57,55 +52,46 @@ private:
     std::string pesel;
     enum Gender gender;
 
-    const std::string getName() const
-    {
+    const std::string getName() const {
         return name;
     }
-    const std::string getSurname() const
-    {
+    const std::string getSurname() const {
         return surname;
     }
-    const std::string getAddress() const
-    {
+    const std::string getAddress() const {
         return address;
     }
-    const std::string getId() const
-    {
+    const std::string getId() const {
         return id;
     }
-    const std::string getPesel() const
-    {
+    const std::string getPesel() const {
         return pesel;
     }
-    enum Gender getGender() const
-    {
+    enum Gender getGender() const {
         return gender;
     }
 };
 
-class StudentPrinter
-{
+class StudentPrinter {
 public:
     static std::string printStudentToPlainText(const Student& student);
 };
 
-class StudentAccessor
-{
+class StudentAccessor {
 public:
     static std::string getSurname(const Student& student);
     static std::string getPesel(const Student& student);
     static std::string getId(const Student& student);
-    struct SortByPesel{
+    struct SortByPesel {
         bool operator()(Student a, Student b) const { return a.pesel < b.pesel; }
     };
-    struct SortBySurname{
+    struct SortBySurname {
         bool operator()(Student a, Student b) const { return a.surname < b.surname; }
     };
 };
 
-class StudentFactory
-{
+class StudentFactory {
 public:
-    StudentFactory(){}
+    StudentFactory() {}
     Student cloneStudent(const Student& student);
 };

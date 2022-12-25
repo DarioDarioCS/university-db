@@ -1,15 +1,21 @@
 #pragma once
 
-#include <vector>
+#include <functional>
 #include <string>
+#include <vector>
+
 #include "Student.hpp"
 
-class UniversityDB
-{
+class UniversityDB {
     int number_of_records = 0;
     std::vector<Student> records;
     bool findStudentById(const std::string& id, Student& student);
-    
+
+    template <typename T>
+    inline bool findStudentBy(const T& value,
+                              std::function<std::string(const Student&)> getter,
+                              Student& student);
+
 public:
     int numberOfRecords() const;
     bool addRecord(const Student& student);
@@ -21,11 +27,7 @@ public:
     void sortByPesel();
     void sortBySurname();
     bool deleteById(const std::string& id);
-    inline bool operator==(const UniversityDB& other) const
-    {
+    inline bool operator==(const UniversityDB& other) const {
         return (records == other.records);
     }
 };
-
-
-

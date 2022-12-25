@@ -3,9 +3,8 @@
 #include <iostream>
 using namespace std;
 
-#include "university-db.hpp"
 #include "Student.hpp"
-
+#include "university-db.hpp"
 
 int main(int argc, char* argv[]) {
     testing::InitGoogleTest(&argc, argv);
@@ -24,21 +23,21 @@ TEST(UniversityDB, AddNewStudent) {
     UniversityDB universityDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
 
-    //At the beginning DB is empty
+    // At the beginning DB is empty
     EXPECT_TRUE(universityDb.numberOfRecords() == 0);
     EXPECT_FALSE(universityDb.hasStudent(student));
-    
-    //adding student should increment number of records
-    universityDb.addRecord(student);
-    EXPECT_TRUE(universityDb.numberOfRecords() == 1);
-    EXPECT_TRUE(universityDb.hasStudent(student));
-    
-    //adding the same student shouldn't make any changes in DB
+
+    // adding student should increment number of records
     universityDb.addRecord(student);
     EXPECT_TRUE(universityDb.numberOfRecords() == 1);
     EXPECT_TRUE(universityDb.hasStudent(student));
 
-    //not added student shoudn't exists in DB
+    // adding the same student shouldn't make any changes in DB
+    universityDb.addRecord(student);
+    EXPECT_TRUE(universityDb.numberOfRecords() == 1);
+    EXPECT_TRUE(universityDb.hasStudent(student));
+
+    // not added student shoudn't exists in DB
     Student not_added_student("Ukulele", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
     EXPECT_TRUE(universityDb.numberOfRecords() == 1);
     EXPECT_FALSE(universityDb.hasStudent(not_added_student));
@@ -48,9 +47,9 @@ TEST(UniversityDB, DisplayDB_whenDBIsEmpty) {
     UniversityDB universityDb;
 
     const std::string expected =
-    "UniversityDB:\n"
-    "Number of records: 0\n"
-    "\n";
+        "UniversityDB:\n"
+        "Number of records: 0\n"
+        "\n";
 
     universityDb.print();
     EXPECT_TRUE(universityDb.toString() == expected);
@@ -62,10 +61,10 @@ TEST(UniversityDB, DisplayDB_whenDBHasOneStudent) {
     universityDb.addRecord(student);
 
     const std::string expected =
-    "UniversityDB:\n"
-    "Number of records: 1\n"
-    "Mokebe, Mensah, ul. Wrocławska 3/4, 555666, 90032108093, Mężczyzna\n"
-    "\n";
+        "UniversityDB:\n"
+        "Number of records: 1\n"
+        "Mokebe, Mensah, ul. Wrocławska 3/4, 555666, 90032108093, Mężczyzna\n"
+        "\n";
 
     universityDb.print();
     EXPECT_TRUE(universityDb.toString() == expected);
@@ -74,23 +73,22 @@ TEST(UniversityDB, DisplayDB_whenDBHasOneStudent) {
 TEST(UniversityDB, DisplayDB_whenDBHasTwoStudents) {
     UniversityDB universityDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
-    Student student2("Mbeppe", "Glappe", "ul. Wrocławska 3/4","555677", "90032108393", Student::Gender::MALE);
+    Student student2("Mbeppe", "Glappe", "ul. Wrocławska 3/4", "555677", "90032108393", Student::Gender::MALE);
     universityDb.addRecord(student);
     universityDb.addRecord(student2);
 
     const std::string expected =
-    "UniversityDB:\n"
-    "Number of records: 2\n"
-    "Mokebe, Mensah, ul. Wrocławska 3/4, 555666, 90032108093, Mężczyzna\n"
-    "Mbeppe, Glappe, ul. Wrocławska 3/4, 555677, 90032108393, Mężczyzna\n"
-    "\n";
+        "UniversityDB:\n"
+        "Number of records: 2\n"
+        "Mokebe, Mensah, ul. Wrocławska 3/4, 555666, 90032108093, Mężczyzna\n"
+        "Mbeppe, Glappe, ul. Wrocławska 3/4, 555677, 90032108393, Mężczyzna\n"
+        "\n";
 
     universityDb.print();
     EXPECT_TRUE(universityDb.toString() == expected);
 }
 
-TEST(UniversityDB, FindStudentBySurname_whenDBIsEmpty_thenDontLetFindAnyStudent)
-{
+TEST(UniversityDB, FindStudentBySurname_whenDBIsEmpty_thenDontLetFindAnyStudent) {
     UniversityDB universityDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
 
@@ -100,8 +98,7 @@ TEST(UniversityDB, FindStudentBySurname_whenDBIsEmpty_thenDontLetFindAnyStudent)
     EXPECT_FALSE(student == student_to_find);
 }
 
-TEST(UniversityDB, FindStudentBySurname_whenDBHasOneParticularStudent_thenAllowToFindThisStudent)
-{
+TEST(UniversityDB, FindStudentBySurname_whenDBHasOneParticularStudent_thenAllowToFindThisStudent) {
     UniversityDB universityDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
     universityDb.addRecord(student);
@@ -112,8 +109,7 @@ TEST(UniversityDB, FindStudentBySurname_whenDBHasOneParticularStudent_thenAllowT
     EXPECT_TRUE(student == student_to_find);
 }
 
-TEST(UniversityDB, FindStudentBySurname_whenDBHasOneParticularStudent_thenDisallowToFindAnotherStudent)
-{
+TEST(UniversityDB, FindStudentBySurname_whenDBHasOneParticularStudent_thenDisallowToFindAnotherStudent) {
     UniversityDB universityDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
     universityDb.addRecord(student);
@@ -124,8 +120,7 @@ TEST(UniversityDB, FindStudentBySurname_whenDBHasOneParticularStudent_thenDisall
     EXPECT_FALSE(student == student_to_find);
 }
 
-TEST(UniversityDB, FindStudentByPesel_whenDBIsEmpty_thenDontLetFindAnyStudent)
-{
+TEST(UniversityDB, FindStudentByPesel_whenDBIsEmpty_thenDontLetFindAnyStudent) {
     UniversityDB universityDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
 
@@ -135,8 +130,7 @@ TEST(UniversityDB, FindStudentByPesel_whenDBIsEmpty_thenDontLetFindAnyStudent)
     EXPECT_FALSE(student == student_to_find);
 }
 
-TEST(UniversityDB, FindStudentByPesel_whenDBHasOneParticularStudent_thenAllowToFindThisStudent)
-{
+TEST(UniversityDB, FindStudentByPesel_whenDBHasOneParticularStudent_thenAllowToFindThisStudent) {
     UniversityDB universityDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
     universityDb.addRecord(student);
@@ -147,8 +141,7 @@ TEST(UniversityDB, FindStudentByPesel_whenDBHasOneParticularStudent_thenAllowToF
     EXPECT_TRUE(student == student_to_find);
 }
 
-TEST(UniversityDB, FindStudentByPesel_whenDBHasOneParticularStudent_thenDisallowToFindAnotherStudent)
-{
+TEST(UniversityDB, FindStudentByPesel_whenDBHasOneParticularStudent_thenDisallowToFindAnotherStudent) {
     UniversityDB universityDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
     universityDb.addRecord(student);
@@ -159,15 +152,13 @@ TEST(UniversityDB, FindStudentByPesel_whenDBHasOneParticularStudent_thenDisallow
     EXPECT_FALSE(student == student_to_find);
 }
 
-TEST(UniversityDB, SortDBByPesel_whenDBIsEmpty_thenOnlyLetInvokeSortMethod)
-{
+TEST(UniversityDB, SortDBByPesel_whenDBIsEmpty_thenOnlyLetInvokeSortMethod) {
     UniversityDB universityDb;
 
     universityDb.sortByPesel();
 }
 
-TEST(UniversityDB, SortDBByPesel_whenDBHasOneStudent_thenDBShouldBeTheSameAsBefore)
-{
+TEST(UniversityDB, SortDBByPesel_whenDBHasOneStudent_thenDBShouldBeTheSameAsBefore) {
     UniversityDB universityDb;
     UniversityDB expectedDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
@@ -180,8 +171,7 @@ TEST(UniversityDB, SortDBByPesel_whenDBHasOneStudent_thenDBShouldBeTheSameAsBefo
     EXPECT_TRUE(universityDb == expectedDb);
 }
 
-TEST(UniversityDB, SortDBByPesel_whenDBHasTwoStudents_thenDBBeSorted)
-{
+TEST(UniversityDB, SortDBByPesel_whenDBHasTwoStudents_thenDBBeSorted) {
     UniversityDB universityDb;
     UniversityDB expectedDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
@@ -198,8 +188,7 @@ TEST(UniversityDB, SortDBByPesel_whenDBHasTwoStudents_thenDBBeSorted)
     EXPECT_TRUE(universityDb == expectedDb);
 }
 
-TEST(UniversityDB, SortDBByPesel_whenDBHasThreeStudents_thenDBBeSorted)
-{
+TEST(UniversityDB, SortDBByPesel_whenDBHasThreeStudents_thenDBBeSorted) {
     UniversityDB universityDb;
     UniversityDB expectedDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
@@ -220,15 +209,13 @@ TEST(UniversityDB, SortDBByPesel_whenDBHasThreeStudents_thenDBBeSorted)
     EXPECT_TRUE(universityDb == expectedDb);
 }
 
-TEST(UniversityDB, SortDBBySurname_whenDBIsEmpty_thenOnlyLetInvokeSortMethod)
-{
+TEST(UniversityDB, SortDBBySurname_whenDBIsEmpty_thenOnlyLetInvokeSortMethod) {
     UniversityDB universityDb;
 
     universityDb.sortBySurname();
 }
 
-TEST(UniversityDB, SortDBBySurname_whenDBHasOneStudent_thenDBShouldBeTheSameAsBefore)
-{
+TEST(UniversityDB, SortDBBySurname_whenDBHasOneStudent_thenDBShouldBeTheSameAsBefore) {
     UniversityDB universityDb;
     UniversityDB expectedDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
@@ -241,8 +228,7 @@ TEST(UniversityDB, SortDBBySurname_whenDBHasOneStudent_thenDBShouldBeTheSameAsBe
     EXPECT_TRUE(universityDb == expectedDb);
 }
 
-TEST(UniversityDB, SortDBBySurname_whenDBHasTwoStudents_thenDBBeSorted)
-{
+TEST(UniversityDB, SortDBBySurname_whenDBHasTwoStudents_thenDBBeSorted) {
     UniversityDB universityDb;
     UniversityDB expectedDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
@@ -260,8 +246,7 @@ TEST(UniversityDB, SortDBBySurname_whenDBHasTwoStudents_thenDBBeSorted)
     EXPECT_TRUE(universityDb == expectedDb);
 }
 
-TEST(UniversityDB, SortDBBySurname_whenDBHasThreeStudents_thenDBBeSorted)
-{
+TEST(UniversityDB, SortDBBySurname_whenDBHasThreeStudents_thenDBBeSorted) {
     UniversityDB universityDb;
     UniversityDB expectedDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
@@ -282,8 +267,7 @@ TEST(UniversityDB, SortDBBySurname_whenDBHasThreeStudents_thenDBBeSorted)
     EXPECT_TRUE(universityDb == expectedDb);
 }
 
-TEST(UniversityDB, DeleteStudent_whenDBIsEmpty_thenDeletionShouldntChangeAnything)
-{
+TEST(UniversityDB, DeleteStudent_whenDBIsEmpty_thenDeletionShouldntChangeAnything) {
     UniversityDB universityDb;
     EXPECT_TRUE(universityDb.numberOfRecords() == 0);
 
@@ -293,8 +277,7 @@ TEST(UniversityDB, DeleteStudent_whenDBIsEmpty_thenDeletionShouldntChangeAnythin
     EXPECT_TRUE(universityDb.numberOfRecords() == 0);
 }
 
-TEST(UniversityDB, DeleteStudent_whenDBHasOneStudent_thenDeletionShouldMakeDBEmpty)
-{
+TEST(UniversityDB, DeleteStudent_whenDBHasOneStudent_thenDeletionShouldMakeDBEmpty) {
     UniversityDB universityDb;
     EXPECT_TRUE(universityDb.numberOfRecords() == 0);
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
@@ -306,9 +289,7 @@ TEST(UniversityDB, DeleteStudent_whenDBHasOneStudent_thenDeletionShouldMakeDBEmp
     EXPECT_TRUE(universityDb.numberOfRecords() == 0);
 }
 
-
-TEST(UniversityDB, DeleteStudent_whenDBHasTwoStudents_thenSingleDeletionShouldRemainOneRecord)
-{
+TEST(UniversityDB, DeleteStudent_whenDBHasTwoStudents_thenSingleDeletionShouldRemainOneRecord) {
     UniversityDB universityDb;
     EXPECT_TRUE(universityDb.numberOfRecords() == 0);
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
