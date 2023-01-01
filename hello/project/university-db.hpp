@@ -6,6 +6,8 @@
 
 #include "Student.hpp"
 
+class UniversityDBAccessor;
+
 class UniversityDB {
     int number_of_records = 0;
     std::vector<Student> records;
@@ -16,6 +18,11 @@ class UniversityDB {
                               std::function<std::string(const Student&)> getter,
                               Student& student);
 
+    std::vector<Student> getRecords() const 
+    {
+        return records;
+    }
+    friend UniversityDBAccessor;
 public:
     int numberOfRecords() const;
     bool empty() const;
@@ -33,6 +40,17 @@ public:
     }
 };
 
+class UniversityDBAccessor
+{
+    UniversityDB& db;
+public:
+    UniversityDBAccessor(UniversityDB& db) :db{db} {}
+    std::vector<Student> getRecords()
+    {
+        return db.records;
+    }
+};
+
 class UniversityDBBackup
 {
     UniversityDB db_to_backup;
@@ -40,7 +58,7 @@ public:
     explicit UniversityDBBackup(UniversityDB db_to_backup) : db_to_backup{db_to_backup}{
 
     }
-    void archiveDB() const;
+    void archiveDB();
     void cleanDB() const;
     UniversityDB retrieveData();
 };

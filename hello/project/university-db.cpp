@@ -4,6 +4,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <nlohmann/json.hpp>
+
 std::string UniversityDB::toString() {
     std::ostringstream out("");
     out << "UniversityDB:\n";
@@ -92,9 +94,36 @@ bool UniversityDB::deleteById(const std::string& id) {
     return result;
 }
 
-void UniversityDBBackup::archiveDB() const 
+void UniversityDBBackup::archiveDB() 
 {
+    nlohmann::json json_data;
+    json_data["Number of records"] = db_to_backup.numberOfRecords();
 
+    UniversityDBAccessor dbAccessor{db_to_backup};
+    auto records = dbAccessor.getRecords();
+    for (const auto& record : records)
+    {
+        // Podziel rekord na poszczególne elementy
+        std::vector<std::string> elements;
+        std::stringstream ss{StudentPrinter::printStudentToPlainText(record)};
+        std::string element;
+        while (std::getline(ss, element, ','))
+        {
+            elements.push_back(element);
+        }
+
+        // Utwórz obiekt JSON dla pojedynczego rekordu
+        nlohmann::json json_record;
+        json_record["Imię"] = elements[0];
+        json_record["Nazwisko"] = elements[1];
+        json_record["Adres"] = elements[2];
+        json_record["Numer ID"] = elements[3];
+        json_record["Pesel"] = elements[4];
+        json_record["Płeć"] = elements[5];
+
+        // Dodaj obiekt JSON dla pojedynczego rekordu do obiektu JSON z całymi danymi
+        json_data["Records"].push_back(json_record);
+    }
 }
 
 void UniversityDBBackup::cleanDB() const 
