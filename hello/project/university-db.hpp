@@ -58,9 +58,9 @@ public:
 
 class UniversityDBBackup
 {
-    UniversityDB db_to_backup;
+    UniversityDB& db_to_backup;
 public:
-    explicit UniversityDBBackup(UniversityDB db_to_backup) : db_to_backup{db_to_backup}{
+    explicit UniversityDBBackup(UniversityDB& db_to_backup) : db_to_backup{db_to_backup}{
 
     }
     void archiveDB();
