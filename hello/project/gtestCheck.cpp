@@ -332,7 +332,7 @@ TEST(UniversityDBBackup, integrationTest)
     EXPECT_TRUE(universityDb.numberOfRecords() == 0);
     auto retrievedData = backup.retrieveData();
     EXPECT_FALSE(universityDb.numberOfRecords() == 0);
-    EXCEPT_FALSE(retrievedData.empty());
+    EXPECT_FALSE(retrievedData.empty());
 
     EXPECT_TRUE(universityDb == expectedDb);
 }

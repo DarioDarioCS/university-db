@@ -18,6 +18,7 @@ class UniversityDB {
 
 public:
     int numberOfRecords() const;
+    bool empty() const;
     bool addRecord(const Student& student);
     bool hasStudent(const Student& student);
     std::string toString();
@@ -30,4 +31,16 @@ public:
     inline bool operator==(const UniversityDB& other) const {
         return (records == other.records);
     }
+};
+
+class UniversityDBBackup
+{
+    UniversityDB db_to_backup;
+public:
+    explicit UniversityDBBackup(UniversityDB db_to_backup) : db_to_backup{db_to_backup}{
+
+    }
+    void archiveDB() const;
+    void cleanDB() const;
+    UniversityDB retrieveData();
 };

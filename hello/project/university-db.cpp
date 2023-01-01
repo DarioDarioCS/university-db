@@ -19,6 +19,10 @@ void UniversityDB::print() {
     std::cout << toString();
 }
 
+bool UniversityDB::empty() const {
+    return numberOfRecords() == 0;
+}
+
 int UniversityDB::numberOfRecords() const {
     return records.size();
 }
@@ -86,4 +90,22 @@ bool UniversityDB::deleteById(const std::string& id) {
         result = true;
     }
     return result;
+}
+
+void UniversityDBBackup::archiveDB() const 
+{
+
+}
+
+void UniversityDBBackup::cleanDB() const 
+{
+    
+}
+
+UniversityDB UniversityDBBackup::retrieveData() 
+{
+    UniversityDB db;
+    Student student;
+    db.addRecord(student);
+    return db;
 }
