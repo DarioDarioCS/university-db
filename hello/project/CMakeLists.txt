@@ -29,9 +29,8 @@ add_definitions(-Wno-unused-parameter)
 add_definitions(-Wall -Werror -pedantic -Wextra)
 
 add_executable(hello  main.cpp university-db.cpp Student.cpp)
-
 add_executable(gtests gtestCheck.cpp university-db.cpp Student.cpp)
 add_executable(json_experiments my_json_experiments.cpp)
-target_link_libraries(gtests PRIVATE gtest_main gmock_main nlohmann_json::nlohmann_json)
 
+target_link_libraries(gtests PRIVATE gtest_main gmock_main nlohmann_json::nlohmann_json)
 target_link_libraries(json_experiments PRIVATE nlohmann_json::nlohmann_json)
