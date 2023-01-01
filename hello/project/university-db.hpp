@@ -49,6 +49,11 @@ public:
     {
         return db.records;
     }
+
+    void deleteDB()
+    {
+        db.records.clear();
+    }
 };
 
 class UniversityDBBackup
@@ -59,6 +64,6 @@ public:
 
     }
     void archiveDB();
-    void cleanDB() const;
+    void cleanDB();
     UniversityDB retrieveData();
 };

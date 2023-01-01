@@ -126,9 +126,10 @@ void UniversityDBBackup::archiveDB()
     }
 }
 
-void UniversityDBBackup::cleanDB() const 
+void UniversityDBBackup::cleanDB() 
 {
-    
+    UniversityDBAccessor dbAccessor{db_to_backup};
+    dbAccessor.deleteDB();
 }
 
 UniversityDB UniversityDBBackup::retrieveData() 
