@@ -102,3 +102,17 @@ public:
     StudentFactory() {}
     Student cloneStudent(const Student& student);
 };
+
+class PeselValidator
+{
+
+public:
+    static bool validate(const std::string& pesel)
+    {
+        if(pesel.size() == 11)
+        {
+            return true;
+        }
+        return false;
+    }
+};

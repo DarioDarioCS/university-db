@@ -339,3 +339,18 @@ TEST(UniversityDBBackup, IntegrationTest_whenBackupDataToFileAndCleanDB_thenRetr
 
     EXPECT_TRUE(universityDb == expectedDb);
 }
+
+
+TEST(PeselValidation, hasIncorrectAmountOfDigitsEqualsToElevenDigits)
+{
+    std::string incorrect_pesel_str = "0001112221";
+
+    EXPECT_FALSE(PeselValidator::validate(incorrect_pesel_str));
+}
+
+TEST(PeselValidation, hasCorrectAmountOfDigits)
+{
+    std::string pesel_str = "50020132364";
+
+    EXPECT_TRUE(PeselValidator::validate(pesel_str));
+}
