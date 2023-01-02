@@ -305,14 +305,14 @@ TEST(UniversityDB, DeleteStudent_whenDBHasTwoStudents_thenSingleDeletionShouldRe
     EXPECT_TRUE(universityDb.numberOfRecords() == 1);
 }
 
-TEST(UniversityDBBackup, integrationTest)
-{
+TEST(UniversityDBBackup, IntegrationTest_whenBackupDataToFileAndCleanDB_thenRetrieveDataFromFileAndCheckIfDBIsTheSameAsAtBeggining) {
     UniversityDB universityDb;
     UniversityDB expectedDb;
     Student student("Mokebe", "Mensah", "ul. Wrocławska 3/4", "555666", "90032108093", Student::Gender::MALE);
     Student student2("Nbeppe", "Glappe", "ul. Wrocławska 3/4", "555666", "50032108093", Student::Gender::MALE);
     Student student3("Leppe", "Meppe", "ul. Wrocławska 3/4", "555666", "80032108093", Student::Gender::MALE);
 
+    // Make two the same DBs
     universityDb.addRecord(student);
     universityDb.addRecord(student2);
     universityDb.addRecord(student3);
@@ -324,15 +324,18 @@ TEST(UniversityDBBackup, integrationTest)
 
     UniversityDBBackup backup{universityDb};
 
-    //here any mock for JSON?
-    //TODO: maybe more sophisticated memory management needed?
+    // here any mock for JSON dependencies?
     backup.archiveDB();
     backup.cleanDB();
-    EXPECT_FALSE(universityDb == expectedDb);
     EXPECT_TRUE(universityDb.numberOfRecords() == 0);
-    auto retrievedData = backup.retrieveData();
-    EXPECT_FALSE(universityDb.numberOfRecords() == 0);
-    EXPECT_FALSE(retrievedData.empty());
+    EXPECT_FALSE(universityDb == expectedDb);
+
+    backup.retrieveData();
+
+    EXPECT_TRUE(universityDb.numberOfRecords() == 3);
+
+    universityDb.print();
+    expectedDb.print();
 
     EXPECT_TRUE(universityDb == expectedDb);
 }

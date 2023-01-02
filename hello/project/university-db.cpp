@@ -1,10 +1,25 @@
 #include "university-db.hpp"
 
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 
 #include <nlohmann/json.hpp>
+
+static std::string remove_leading_trailing_whitespaces(std::string str) {
+    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](int ch) {
+                  return !std::isspace(ch);
+              }));
+
+    str.erase(std::find_if(str.rbegin(), str.rend(), [](int ch) {
+                  return !std::isspace(ch);
+              }).base(),
+              str.end());
+
+    return str;
+};
 
 std::string UniversityDB::toString() {
     std::ostringstream out("");
@@ -94,48 +109,84 @@ bool UniversityDB::deleteById(const std::string& id) {
     return result;
 }
 
-void UniversityDBBackup::archiveDB() 
-{
+void UniversityDBBackup::archiveDB() {
     nlohmann::json json_data;
     json_data["Number of records"] = db_to_backup.numberOfRecords();
 
     UniversityDBAccessor dbAccessor{db_to_backup};
     auto records = dbAccessor.getRecords();
-    for (const auto& record : records)
-    {
-        // Podziel rekord na poszczególne elementy
+    for (const auto& record : records) {
         std::vector<std::string> elements;
         std::stringstream ss{StudentPrinter::printStudentToPlainText(record)};
         std::string element;
-        while (std::getline(ss, element, ','))
-        {
-            elements.push_back(element);
+        while (std::getline(ss, element, ',')) {
+            elements.push_back(remove_leading_trailing_whitespaces(element));
         }
 
-        // Utwórz obiekt JSON dla pojedynczego rekordu
         nlohmann::json json_record;
-        json_record["Imię"] = elements[0];
-        json_record["Nazwisko"] = elements[1];
-        json_record["Adres"] = elements[2];
-        json_record["Numer ID"] = elements[3];
+        json_record["Name"] = elements[0];
+        json_record["Surname"] = elements[1];
+        json_record["Address"] = elements[2];
+        json_record["ID"] = elements[3];
         json_record["Pesel"] = elements[4];
-        json_record["Płeć"] = elements[5];
+        json_record["Gender"] = elements[5];
 
-        // Dodaj obiekt JSON dla pojedynczego rekordu do obiektu JSON z całymi danymi
         json_data["Records"].push_back(json_record);
+    }
+
+    std::ofstream out_file("data.json");
+    if (out_file.is_open()) {
+        out_file << json_data.dump(4);
+        out_file.close();
+    } else {
+        std::cerr << "Error opening file for writing!" << std::endl;
     }
 }
 
-void UniversityDBBackup::cleanDB() 
-{
+void UniversityDBBackup::cleanDB() {
     UniversityDBAccessor dbAccessor{db_to_backup};
     dbAccessor.deleteDB();
 }
 
-UniversityDB UniversityDBBackup::retrieveData() 
-{
-    UniversityDB db;
-    Student student;
-    db.addRecord(student);
-    return db;
+UniversityDB UniversityDBBackup::retrieveData() {
+    UniversityDBAccessor dbAccessor{db_to_backup};
+
+    std::ifstream in_file("data.json");
+    if (in_file.is_open()) {
+        std::string data((std::istreambuf_iterator<char>(in_file)),
+                         std::istreambuf_iterator<char>());
+        in_file.close();
+
+        nlohmann::json json_data = nlohmann::json::parse(data);
+
+        for (const auto& json_record : json_data["Records"]) {
+            std::string name, surname, address, id, pesel, genderStr;
+            std::istringstream input_stream;
+
+            input_stream.str(
+                json_record["Name"].get<std::string>() + ", " + json_record["Surname"].get<std::string>() + ", " + json_record["Address"].get<std::string>() + ", " + json_record["ID"].get<std::string>() + ", " + json_record["Pesel"].get<std::string>() + ", " + json_record["Gender"].get<std::string>());
+
+            std::getline(input_stream, name, ',');
+            std::getline(input_stream, surname, ',');
+            std::getline(input_stream, address, ',');
+            std::getline(input_stream, id, ',');
+            std::getline(input_stream, pesel, ',');
+            std::getline(input_stream, genderStr);
+
+            name = remove_leading_trailing_whitespaces(name);
+            surname = remove_leading_trailing_whitespaces(surname);
+            address = remove_leading_trailing_whitespaces(address);
+            id = remove_leading_trailing_whitespaces(id);
+            pesel = remove_leading_trailing_whitespaces(pesel);
+            genderStr = remove_leading_trailing_whitespaces(genderStr);
+
+            auto gender = StudentAccessor::getGenderByStr(genderStr);
+            Student record{name, surname, address, id, pesel, gender};
+            db_to_backup.addRecord(record);
+        }
+    } else {
+        throw UniversityDBBackupException("Couldn't open the file\n");
+    }
+
+    return db_to_backup;
 }

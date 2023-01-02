@@ -82,6 +82,13 @@ public:
     static std::string getSurname(const Student& student);
     static std::string getPesel(const Student& student);
     static std::string getId(const Student& student);
+    static Student::Gender getGenderByStr(const std::string& genderStr) {
+        if (genderStr == "Kobieta") {
+            return Student::Gender::FEMALE;
+        } else {
+            return Student::Gender::MALE;
+        }
+    }
     struct SortByPesel {
         bool operator()(Student a, Student b) const { return a.pesel < b.pesel; }
     };

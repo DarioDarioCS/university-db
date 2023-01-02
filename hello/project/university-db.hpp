@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -18,11 +19,11 @@ class UniversityDB {
                               std::function<std::string(const Student&)> getter,
                               Student& student);
 
-    std::vector<Student> getRecords() const 
-    {
+    std::vector<Student> getRecords() const {
         return records;
     }
     friend UniversityDBAccessor;
+
 public:
     int numberOfRecords() const;
     bool empty() const;
@@ -40,28 +41,42 @@ public:
     }
 };
 
-class UniversityDBAccessor
-{
+class UniversityDBAccessor {
     UniversityDB& db;
+
 public:
-    UniversityDBAccessor(UniversityDB& db) :db{db} {}
-    std::vector<Student> getRecords()
-    {
+    UniversityDBAccessor(UniversityDB& db)
+        : db{db} {}
+    std::vector<Student> getRecords() {
         return db.records;
     }
 
-    void deleteDB()
-    {
+    void deleteDB() {
         db.records.clear();
+    }
+
+    void loadRetrievedData() {
     }
 };
 
-class UniversityDBBackup
-{
-    UniversityDB& db_to_backup;
-public:
-    explicit UniversityDBBackup(UniversityDB& db_to_backup) : db_to_backup{db_to_backup}{
+class UniversityDBBackupException : public std::exception {
+private:
+    std::string message;
 
+public:
+    UniversityDBBackupException(const std::string& msg)
+        : message(msg) {}
+    const char* what() const noexcept override {
+        return message.c_str();
+    }
+};
+
+class UniversityDBBackup {
+    UniversityDB& db_to_backup;
+
+public:
+    explicit UniversityDBBackup(UniversityDB& db_to_backup)
+        : db_to_backup{db_to_backup} {
     }
     void archiveDB();
     void cleanDB();
